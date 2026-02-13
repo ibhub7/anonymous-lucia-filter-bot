@@ -5,7 +5,7 @@
 <h1 align="center">Lucia Filter Bot</h1>
 
 <p align="center">
-  <a href="https://t.me/SilentXBotz_Support">
+  <a href="https://telegram.me/infinity_botzz_Support">
     <img src="https://img.shields.io/badge/Join-Support%20Group-blue?style=for-the-badge&logo=telegram">
   </a>
   <a href="http://t.me/Lucia_Filter_Bot">
@@ -215,7 +215,7 @@ python3 bot.py
 # ! Errors 
 - This Repository May Contain Some Errors. If You Encounter Any Issues, Please Let Us Know, And We Will Do Our Best To Resolve Them.
 <p align="center">
-  <a href="https://t.me/SilentXBotz_Support">
+  <a href="https://telegram.me/infinity_botzz_Support">
     <img src="https://img.shields.io/badge/Report-Error-red?style=for-the-badge&logo=telegram" alt="Report Error">
   </a>
 </p>

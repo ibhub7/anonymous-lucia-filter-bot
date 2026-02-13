@@ -152,8 +152,21 @@ async def SilentXBotz_start():
             chat_id=LOG_CHANNEL,
             text=script.RESTART_TXT.format(temp.B_LINK, today, time_str),
         )
+        await SilentX.send_message(
+            chat_id=SUPPORT_CHAT_ID, 
+            text=f"<b>{me.mention} Restarted 🤖</b>"
+        )
+        for admin in ADMINS:
+            try:
+                await SilentX.send_message(
+                    chat_id=admin, 
+                    text=f"<b>๏[-ิ_•ิ]๏ {me.mention} Restarted ✅</b>"
+                )
+            except Exception:
+                continue
     except Exception as e:
-        LOGGER.error(f"Error Sending Restart Log: {e}")
+        LOGGER.error(f"Restart Notification Suite Failed: {e}")
+    
     app = web.AppRunner(await web_server())
     await app.setup()
     bind_address = "0.0.0.0"

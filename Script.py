@@ -12,7 +12,7 @@ class script(object):
     ABOUT_TXT = """<b>╭───────────⍟
 ├🤖 ᴍʏ ɴᴀᴍᴇ : <a href=https://t.me/{}>{}</a>
 ├👑 ᴏᴡɴᴇʀ : <a href={}>ᴏᴡɴᴇʀ</a>
-├👨‍💻 ᴅᴇᴠᴇʟᴏᴘᴇʀ : <a href=https://t.me/SilentXBotz>ꜱɪʟᴇɴᴛxʙᴏᴛᴢ </a>
+├👨‍💻 ᴅᴇᴠᴇʟᴏᴘᴇʀ : <a href=https://telegram.me/infinity_botzz>ɪɴғɪɴɪᴛʏ ʙᴏᴛᴢ</a>
 ├📕 ʟɪʙʀᴀʀʏ : <a href=https://github.com/pyrogram>ᴘʏʀᴏɢʀᴀᴍ</a>
 ├✏️ ʟᴀɴɢᴜᴀɢᴇ : <a href=https://www.python.org>ᴘʏᴛʜᴏɴ 3</a>
 ├💾 ᴅᴀᴛᴀʙᴀꜱᴇ : <a href=https://cloud.mongodb.com>ᴍᴏɴɢᴏ ᴅʙ</a>
@@ -244,7 +244,7 @@ class script(object):
 ᴍᴇꜱꜱᴀɢᴇ : <b>{}</b>"""
     
     CAPTION = """<b>{file_name}\n
-📤 ᴜᴘʟᴏᴀᴅᴇᴅ ʙʏ: <a href="https://t.me/SilentXBotz">SɪʟᴇɴᴛXʙᴏᴛᴢ</a></b>"""
+📤 ᴜᴘʟᴏᴀᴅᴇᴅ ʙʏ: <a href="https://telegram.me/infinity_botzz">SɪʟᴇɴᴛXʙᴏᴛᴢ</a></b>"""
 
     IMDB_TEMPLATE_TXT = """
 <b>🎬 ᴛɪᴛʟᴇ: <a href={url}>{title}</a>
@@ -257,7 +257,8 @@ class script(object):
 👤 ʀᴇᴏ̨ᴜᴇꜱᴛᴇᴅ ʙʏ: {message.from_user.mention}</b>"""
 
     RESTART_TXT = """
-<b>✅ ʙᴏᴛ ʀᴇꜱᴛᴀʀᴛᴇᴅ!
+<b>▷ >{}
+✅ ʙᴏᴛ ʀᴇꜱᴛᴀʀᴛᴇᴅ!
 
 📅 ᴅᴀᴛᴇ: <code>{}</code>
 ⏰ ᴛɪᴍᴇ: <code>{}</code>
