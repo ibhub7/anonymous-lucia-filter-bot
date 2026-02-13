@@ -841,11 +841,11 @@ async def auto_filter(client, msg, spoll=False):
         if re.findall("((^\/|^,|^!|^\.|^[\U0001F600-\U000E007F]).*)", message.text):
             return
         if len(message.text) < 100:
-            search = await replace_words(message.text)		
+            search = await replace_words(message.text)      
             search = search.lower()
             search = search.replace("-", " ")
-            search = search.replace(":","")
-			search = search.replace("'","")
+            search = search.replace(":", "")
+            search = search.replace("'", "")
             search = re.sub(r'\s+', ' ', search).strip()
             m=await message.reply_text(f'<b>Wait {message.from_user.mention} Searching Your Query: <i>{search}...</i></b>', reply_to_message_id=message.id)
             files, offset, total_results = await get_search_results(message.chat.id ,search, offset=0, filter=True)
