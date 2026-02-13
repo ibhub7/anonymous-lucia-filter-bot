@@ -14,6 +14,51 @@
 </p>
 
 ---
+##
+```
+├── .python-version                # Python runtime version [cite: 1]
+├── Dockerfile                      # Container build instructions [cite: 5]
+├── LICENSE                         # GNU Affero General Public License [cite: 8]
+├── Procfile                        # Process types for Heroku/Koyeb [cite: 10]
+├── app.json                        # App configuration for Heroku/Koyeb [cite: 2]
+├── bot.py                          # Main bot entry and web server start 
+├── docker-compose.yml              # Multi-container Docker configuration [cite: 4]
+├── heroku.yml                      # Heroku stack configuration [cite: 6]
+├── info.py                         # Global configuration and environment variables 
+├── logging.conf                    # Logging level and format configuration [cite: 9]
+│
+├── database/                       # Database management scripts [cite: 3, 13]
+│   ├── config_db.py                # Configuration database handler 
+│   ├── ia_filterdb.py              # File indexing and search logic 
+│   ├── refer.py                    # Referral system database [cite: 13, 18]
+│   └── users_chats_db.py           # User and chat profile storage [cite: 3, 16]
+│
+├── dreamxbotz/                     # Main logic and utilities folder 
+│   ├── Bot.py                      # Bot client initialization 
+│   ├── template/                   # Web interface HTML files [cite: 11, 12]
+│   │   ├── dl.html                 # Download template [cite: 20]
+│   │   ├── index.html              # Landing page [cite: 12]
+│   │   ├── req.html                # Stream request/player template [cite: 20]
+│   │   └── watch.html              # Search results and streaming UI [cite: 11]
+│   └── util/                       # Backend utility scripts 
+│       ├── custom_dl.py            # Custom download/stream logic [cite: 18]
+│       ├── file_properties.py      # Metadata extraction 
+│       ├── keepalive.py            # Server pinging utilities 
+│       └── render_template.py      # HTML template rendering engine [cite: 20]
+│
+└── plugins/                        # Functional bot features 
+    ├── Premium.py                  # Subscription and premium management [cite: 14]
+    ├── broadcast.py                # Global messaging and admin tools [cite: 17]
+    ├── channel.py                  # Auto-indexing and update channel logic [cite: 19]
+    ├── commands.py                 # Bot commands (/start, /help, etc.) [cite: 18]
+    ├── join_req.py                 # Join request approval/storage [cite: 17]
+    ├── misc.py                     # Miscellaneous utility commands [cite: 16]
+    ├── monkey_patch.py             # Pyrogram client customizations [cite: 15]
+    ├── p_ttishow.py                # Admin stats and chat management 
+    ├── pmfilter.py                 # Auto-filter and search engine 
+    ├── post_handler.py             # Update channel posting logic [cite: 15]
+    └── route.py                    # Web server URL routing [cite: 18]
+```
 
 ## Features  
 
