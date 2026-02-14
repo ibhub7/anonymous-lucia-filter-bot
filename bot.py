@@ -135,13 +135,7 @@ async def SilentXBotz_start():
     temp.B_LINK = me.mention
     SilentX.username = "@" + me.username
     SilentX.loop.create_task(check_expired_premium(SilentX))
-    LOGGER.info(
-        "%s with Pyrofork v%s (Layer %s) started on @%s.",
-        me.first_name,
-        __version__,
-        layer,
-        me.username,
-    )
+    LOGGER.info("%s with Pyrofork v%s (Layer %s) started on @%s.", me.first_name, __version__, layer, me.username,)
     LOGGER.info(script.LOGO)
     tz = pytz.timezone("Asia/Kolkata")
     today = date.today()

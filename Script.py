@@ -73,7 +73,7 @@ class script(object):
 
 1️⃣ ʏᴏᴜ ᴍᴜꜱᴛ ʜᴀᴠᴇ ᴀ ɢʀᴏᴜᴘ ᴡɪᴛʜ ᴀᴛ ʟᴇᴀꜱᴛ 100 ᴍᴇᴍʙᴇʀꜱ.
 2️⃣ ᴀᴅᴅ <a href=https://t.me/{}>ᴛʜɪꜱ ʙᴏᴛ</a> ᴀꜱ ᴀɴ ᴀᴅᴍɪɴ ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ.
-3️⃣ ᴄʀᴇᴀᴛᴇ ᴀɴ ᴀᴄᴄᴏᴜɴᴛ ᴏɴ ᴀ ꜱʜᴏʀᴛᴇɴᴇʀ (ᴇ.ɢ., <a href=https://zipshort.net/>ᴢɪᴘꜱʜᴏʀᴛ</a>).
+3️⃣ ᴄʀᴇᴀᴛᴇ ᴀɴ ᴀᴄᴄᴏᴜɴᴛ ᴏɴ ᴀ ꜱʜᴏʀᴛᴇɴᴇʀ (ᴇ.ɢ., <a href=https://t.me/infinity_botz/>ᴢɪᴘꜱʜᴏʀᴛ</a>).
 4️⃣ ꜱᴇɴᴅ /settings ɪɴ ʏᴏᴜʀ ɢʀᴏᴜᴘ ᴀɴᴅ ᴄᴏɴꜰɪɢᴜʀᴇ ᴛʜᴇ ꜱʜᴏʀᴛᴇɴᴇʀ.
 
 🔍 ᴄʜᴇᴄᴋ ᴅᴇᴛᴀɪʟꜱ: /details
@@ -189,7 +189,7 @@ class script(object):
 🗓️ 02 ᴍᴏɴᴛʜꜱ ➪ 120 ₹ / 120 ⭐
 🗓️ 03 ᴍᴏɴᴛʜꜱ ➪ 220 ₹ / 220 ⭐
 
-📜 <a href='https://t.me/+blcE2jS-iGtkMjNl'>ᴄʜᴇᴄᴋ ᴘʀᴏᴏꜰꜱ</a>
+📜 <a href='https://t.me/+oOmoOlo1f38zNTc8'>ᴄʜᴇᴄᴋ ᴘʀᴏᴏꜰꜱ</a>
 
 ⚠️ ɪᴍᴘᴏʀᴛᴀɴᴛ:
 1️⃣ ꜱᴇɴᴅ ꜱᴄʀᴇᴇɴꜱʜᴏᴛ ᴀꜰᴛᴇʀ ᴘᴀʏᴍᴇɴᴛ.
@@ -199,7 +199,7 @@ class script(object):
 
 ɴᴏᴡ ʏᴏᴜ ᴄᴀɴ ʙᴜʏ ᴏᴜʀ ᴘʀᴇᴍɪᴜᴍ ꜱᴇʀᴠɪᴄᴇ ᴜꜱɪɴɢ ᴛᴇʟᴇɢʀᴀᴍ ꜱᴛᴀʀꜱ.  
 
-ɪꜰ ʏᴏᴜ ꜰᴀᴄᴇ ᴀɴʏ ᴘʀᴏʙʟᴇᴍ, ᴛᴀᴋᴇ ᴀ ꜱᴄʀᴇᴇɴꜱʜᴏᴛ ᴀɴᴅ ꜱᴇɴᴅ ɪᴛ ᴛᴏ - @SilentXBotz
+ɪꜰ ʏᴏᴜ ꜰᴀᴄᴇ ᴀɴʏ ᴘʀᴏʙʟᴇᴍ, ᴛᴀᴋᴇ ᴀ ꜱᴄʀᴇᴇɴꜱʜᴏᴛ ᴀɴᴅ ꜱᴇɴᴅ ɪᴛ ᴛᴏ - @talk_mrs_bot
 
 ꜱᴇʟᴇᴄᴛ ʏᴏᴜʀ ᴅᴇꜱɪʀᴇᴅ ᴀᴍᴏᴜɴᴛ ᴀɴᴅ ᴘᴜʀᴄʜᴀꜱᴇ ᴀ ꜱᴜʙꜱᴄʀɪᴘᴛɪᴏɴ 👇.</b>
 """
@@ -244,7 +244,7 @@ class script(object):
 ᴍᴇꜱꜱᴀɢᴇ : <b>{}</b>"""
     
     CAPTION = """<b>{file_name}\n
-📤 ᴜᴘʟᴏᴀᴅᴇᴅ ʙʏ: <a href="https://telegram.me/infinity_botzz">SɪʟᴇɴᴛXʙᴏᴛᴢ</a></b>"""
+📤 ᴜᴘʟᴏᴀᴅᴇᴅ ʙʏ: <a href="https://telegram.me/infinity_botzz">Infinity Botz</a></b>"""
 
     IMDB_TEMPLATE_TXT = """
 <b>🎬 ᴛɪᴛʟᴇ: <a href={url}>{title}</a>
@@ -257,7 +257,7 @@ class script(object):
 👤 ʀᴇᴏ̨ᴜᴇꜱᴛᴇᴅ ʙʏ: {message.from_user.mention}</b>"""
 
     RESTART_TXT = """
-<b>▷ >{}
+<b>>▷ {}
 ✅ ʙᴏᴛ ʀᴇꜱᴛᴀʀᴛᴇᴅ!
 
 📅 ᴅᴀᴛᴇ: <code>{}</code>
