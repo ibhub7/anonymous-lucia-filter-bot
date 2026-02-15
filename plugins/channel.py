@@ -22,7 +22,6 @@ CAPTION_LANGUAGES = ["Bhojpuri", "Hindi", "Bengali", "Tamil", "English", "Bangla
 
 DEFAULT_IMAGE_URL = "https://te.legra.ph/file/88d845b4f8a024a71465d.jpg"
 
-# Expanded OTT Platform Dictionary
 OTT_PLATFORMS = {
     "nf": "Netflix", "netflix": "Netflix",
     "sonyliv": "SonyLiv", "sony": "SonyLiv", "sliv": "SonyLiv",
@@ -62,7 +61,6 @@ def extract_ott_platform(text: str) -> str:
     if not text:
         return "N/A"
     text = text.lower()
-    # Find all matching platforms based on keys
     platforms = {plat for key, plat in OTT_PLATFORMS.items() if key in text}
     return " | ".join(platforms) if platforms else "N/A"
 
@@ -98,31 +96,35 @@ async def send_movie_update(bot, file_name, caption):
         elif season_match:
             season = season_match.group(1)
             file_name = file_name[:file_name.find(season) + 1]
+
         quality = await get_qualities(caption) or "HDRip"
         pixel = await get_pixels(caption) or "720p"
         language = await get_languages(caption) or "Multi-Audio"
+
         if file_name in notified_movies:
             return 
         notified_movies.add(file_name)
+
         tmdb_data = await fetch_tmdb_data(file_name, year)
         search_movie = file_name.replace(" ", "-")
         if not tmdb_data:
             return 
 
+        # Extract only release year
         release_date = tmdb_data.get("release_date")
         release_year = release_date[:4] if release_date else (year or "N/A")
+
         full_caption = INFINITY_UPLOAD_UPDATE_TEXT.format(
-            escape_html(tmdb_data["title"]),  # 1. Title
-            tmdb_data["kind"],                # 2. Kind
-            escape_html(language),            # 3. Audio
-            escape_html(pixel),               # 4. Format (Resolution)
-            escape_html(release_date),        # 5. Release
-            tmdb_data["vote_average"],        # 6. Rating
-            tmdb_data["vote_count"],          # 7. Votes
-            escape_html(", ".join(tmdb_data["genres"][:3])),  # 8. Genres
-            escape_html(ott)                  # 9. OTT
+            escape_html(tmdb_data["title"]),  # Title
+            tmdb_data["kind"],                # Kind
+            escape_html(language),            # Audio
+            escape_html(pixel),               # Format
+            escape_html(release_year),        # Release  Year
+            tmdb_data["vote_average"],        # Rating
+            tmdb_data["vote_count"],          # Votes
+            escape_html(", ".join(tmdb_data["genres"][:3])),  # Genres
+            escape_html(ott)                  # OTT
         )
-       
         await send_with_visual(bot, full_caption, tmdb_data, search_movie)        
     except Exception as e:
         LOGGER.error(f"Error In Movie Update: {e}")
@@ -138,14 +140,13 @@ def escape_html(text: str) -> str:
 #    if yt_videos:
 #        return [InlineKeyboardButton("▶️ Watch Trailer", url=yt_videos[0]["url"])]
 #    return []
-    
+ 
 async def send_with_visual(bot, caption: str, tmdb_data: Dict, search_movie):
     try:
         visual_url = await get_best_visual(tmdb_data)
         get_file = f'https://telegram.me/{temp.U_NAME}?start=getfile-{search_movie}'
         keyboard = InlineKeyboardMarkup([
             [InlineKeyboardButton("🏷️  ɢᴇᴛ ᴀʟʟ ꜰɪʟᴇꜱ  🏷️", url=get_file)],
-            #get_trailer_button(tmdb_data)
         ])
         
         if visual_url:
@@ -165,7 +166,6 @@ async def send_with_visual(bot, caption: str, tmdb_data: Dict, search_movie):
                             has_spoiler=True
                         )
                         return       
-        # Fallback if no visual_url or download fails
         await bot.send_photo(
             chat_id=MOVIE_UPDATE_CHANNEL, 
             photo=DEFAULT_IMAGE_URL, 
