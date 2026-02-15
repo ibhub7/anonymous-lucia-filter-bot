@@ -22,7 +22,7 @@ CAPTION_LANGUAGES = ["Bhojpuri", "Hindi", "Bengali", "Tamil", "English", "Bangla
 
 DEFAULT_IMAGE_URL = "https://te.legra.ph/file/88d845b4f8a024a71465d.jpg"
 
-# --- FORMAT 1 (Original Blockquote Style) ---
+# --- FORMAT 1 (Small Caps Labels) ---
 INFINITY_UPLOAD_UPDATE_TEXT = """
 <blockquote>🎬 <b>「 ɪɴꜰɪɴɪᴛʏ ᴘʀᴇᴍɪᴜᴍ ᴜᴘᴅᴀᴛᴇ 」</b> 🎥</blockquote>
 
@@ -42,19 +42,19 @@ INFINITY_UPLOAD_UPDATE_TEXT = """
 <b>⚡ ᴘᴏᴡᴇʀᴇᴅ ʙʏ <a href="https://t.me/+VdxxoOzGyzU1MzE0">ɪᴍᴊ</a></b>
 """
 
-# --- FORMAT 2 (Alternative Layout) ---
+# --- FORMAT 2 (With Genres & OTT at Top) ---
 INFINITY_UPLOAD_UPDATE_V2 = """
 <blockquote>🎬 <b>「 ɪɴꜰɪɴɪᴛʏ ᴘʀᴇᴍɪᴜᴍ ᴜᴘᴅᴀᴛᴇ 」</b> 🎥</blockquote>
 
 <b><u>{}</u></b> <b>#{}</b>
 
-🎭 ɢᴇɴʀᴇs : {}
-📺 ᴏᴛᴛ : {}
+<b>🎭 ɢᴇɴʀᴇs : {}</b>
+<b>📺 ᴏᴛᴛ : {}</b>
 
 ━━━━━━━━━━━━━━━━━━
-📽️ ꜰᴏʀᴍᴀᴛ : {}
-🔊 ᴀᴜᴅɪᴏ : {}
-⭐ ɪᴍᴅʙ ʀᴀᴛɪɴɢ : {}/10
+<b>📽️ ꜰᴏʀᴍᴀᴛ : {}</b>
+<b>🔊 ᴀᴜᴅɪᴏ : {}</b>
+<b>⭐ ɪᴍᴅʙ ʀᴀᴛɪɴɢ : {}/10</b>
 ━━━━━━━━━━━━━━━━━━
 
 <b>⚡ ᴘᴏᴡᴇʀᴇᴅ ʙʏ <a href="https://t.me/+VdxxoOzGyzU1MzE0">ɪᴍᴊ</a></b>
@@ -96,7 +96,6 @@ async def send_movie_update(bot, file_name, caption):
             return 
         notified_movies.add(file_name)      
         
-        from plugins.Dreamxfutures.Imdbposter import fetch_tmdb_data
         tmdb_data = await fetch_tmdb_data(file_name, year)
         search_movie = file_name.replace(" ", "-")
         if not tmdb_data:
@@ -128,6 +127,7 @@ async def send_movie_update(bot, file_name, caption):
         LOGGER.error(f"Error In Movie Update: {e}")
 
 async def extract_ott_platform(text: str) -> str:
+    # OTT Logic integrated from previous request
     OTT_PLATFORMS = {
         "nf": "ɴᴇᴛꜰʟɪx", "netflix": "ɴᴇᴛꜰʟɪx",
         "sonyliv": "sᴏɴʏʟɪᴠ", "sony": "sᴏɴʏʟɪᴠ", "sliv": "sᴏɴʏʟɪᴠ",
@@ -152,7 +152,6 @@ def get_trailer_button(tmdb_data: Dict) -> list:
     
 async def send_with_visual(bot, caption: str, tmdb_data: Dict, search_movie):
     try:
-        from plugins.Dreamxfutures.Imdbposter import get_best_visual
         visual_url = await get_best_visual(tmdb_data)
         get_file = f'https://telegram.me/{temp.U_NAME}?start=getfile-{search_movie}'
         keyboard = InlineKeyboardMarkup([
@@ -174,7 +173,7 @@ async def send_with_visual(bot, caption: str, tmdb_data: Dict, search_movie):
                         caption=caption,
                         parse_mode=ParseMode.HTML,
                         reply_markup=keyboard,
-                        has_spoiler=True
+                        has_spoiler=True # Added tap-to-reveal blur
                     )
                     return       
     except Exception as e:
@@ -187,8 +186,7 @@ async def generate_premium_filename(title: str, extension=".jpg") -> str:
     return f"silentx_{clean_title}_{timestamp}_{unique_id}{extension}"
 
 async def get_languages(text: str) -> str:
-    found_langs = [lang for lang in CAPTION_LANGUAGES if lang.lower() in text.lower()]
-    # Convert to small caps
+    found_langs = [lang for lang in CAPTION_LANGUAGES if lang.lower().replace(" ", "") in text.lower().replace(" ", "")]
     mapping = str.maketrans("abcdefghijklmnopqrstuvwxyz", "ᴀʙᴄᴅᴇꜰɢʜɪᴊᴋʟᴍɴᴏᴘǫʀsᴛᴜᴠᴡxʏᴢ")
     return ", ".join(found_langs[:2]).translate(mapping) if found_langs else "ᴍᴜʟᴛɪ-ᴀᴜᴅɪᴏ"
 
@@ -199,6 +197,6 @@ async def get_qualities(text):
     return ", ".join(found).translate(mapping) if found else "ʜᴅʀɪᴘ"
 
 async def get_pixels(caption):
-    pixels = ["480p", "720p", "1080p", "2160p", "4K"]
+    pixels = ["360p", "480p", "720p", "1080p", "2160p", "4K"]
     found = [p for p in pixels if p.lower() in caption.lower()]
     return ", ".join(found) if found else "720ᴘ"
