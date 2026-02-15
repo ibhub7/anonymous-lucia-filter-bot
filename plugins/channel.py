@@ -38,7 +38,7 @@ OTT_PLATFORMS = {
 #<b>🎥Qᴜᴀʟɪᴛʏ</b>: <b>{}</b>
 
 INFINITY_UPLOAD_UPDATE_TEXT = """
-<blockquote>🎬 <b>「 ɪɴꜰɪɴɪᴛʏ ᴘʀᴇᴍɪᴜᴍ ᴜᴘʟᴏᴀᴅ ᴜᴘᴅᴀᴛᴇ 」</b> 🎥</blockquote>
+<blockquote>🎬 <b>「ɪɴꜰɪɴɪᴛʏ ᴘʀᴇᴍɪᴜᴍ ᴜᴘʟᴏᴀᴅ ᴜᴘᴅᴀᴛᴇ」</b> 🎥</blockquote>
 
 <b><u>{}</u></b> <b>#{}</b>
 
