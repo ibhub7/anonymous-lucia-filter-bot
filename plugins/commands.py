@@ -55,6 +55,13 @@ async def start(client, message):
         current_time = datetime.now(tz=ist_timezone)
         result = await db.update_notcopy_user(user_id, {key:current_time})
         await db.update_verify_id_info(user_id, verify_id, {"verified":True})
+        #-------------------------------------------
+        try:
+            group = await client.get_chat(grp_id)
+            group_name = group.title if group else "ɢʀᴏᴜᴘ ɴᴏᴛ ꜰᴏᴜɴᴅ"
+        except:
+            group_name = "ɢʀᴏᴜᴘ ɴᴏᴛ ꜰᴏᴜɴᴅ"
+        #----------------------------------------
         if key == "third_time_verified": 
             num = 3 
         else: 
@@ -67,7 +74,7 @@ async def start(client, message):
             verifiedfiles = f"https://telegram.me/{temp.U_NAME}?start=allfiles_{grp_id}_{file_id}"
         else:
             verifiedfiles = f"https://telegram.me/{temp.U_NAME}?start=file_{grp_id}_{file_id}"
-        await client.send_message(settings['log'], script.VERIFIED_LOG_TEXT.format(m.from_user.mention, user_id, datetime.now(pytz.timezone('Asia/Kolkata')).strftime('%d %B %Y'), num))
+        await client.send_message(settings['log'], script.VERIFIED_LOG_TEXT.format(m.from_user.mention, user_id, datetime.now(pytz.timezone('Asia/Kolkata')).strftime('%d %B %Y'), group_name, num))
         btn = [[
             InlineKeyboardButton("✅ ᴄʟɪᴄᴋ ʜᴇʀᴇ ᴛᴏ ɢᴇᴛ ꜰɪʟᴇ ✅", url=verifiedfiles),
         ]]
