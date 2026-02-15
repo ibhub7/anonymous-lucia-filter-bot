@@ -109,19 +109,18 @@ async def send_movie_update(bot, file_name, caption):
         if not tmdb_data:
             return 
 
-        # Placeholder adjustments according to INFINITY_UPLOAD_UPDATE_TEXT
-        # 1. Title, 2. Kind, 3. Audio, 4. Format, 5. OTT, 6. Genres, 7.Year 8. Rating, 9. Votes
         full_caption = INFINITY_UPLOAD_UPDATE_TEXT.format(
-            escape_html(tmdb_data["title"]),
-            tmdb_data["kind"],
-            escape_html(language),
-            escape_html(pixel),
-            escape_html(ott),
-            escape_html(", ".join(tmdb_data["genres"][:3])),
-            escape_html(tmdb_data.get("release_date", year) or "N/A"),
-            tmdb_data["vote_average"],
-            tmdb_data["vote_count"]
-        )        
+            escape_html(tmdb_data["title"]),  # 1. Title
+            tmdb_data["kind"],                # 2. Kind
+            escape_html(language),            # 3. Audio
+            escape_html(pixel),               # 4. Format (Resolution)
+            escape_html(tmdb_data.get("release_date", year) or "N/A"),  # 5. Release
+            tmdb_data["vote_average"],        # 6. Rating
+            tmdb_data["vote_count"],          # 7. Votes
+            escape_html(", ".join(tmdb_data["genres"][:3])),  # 8. Genres
+            escape_html(ott)                  # 9. OTT
+        )
+       
         await send_with_visual(bot, full_caption, tmdb_data, search_movie)        
     except Exception as e:
         LOGGER.error(f"Error In Movie Update: {e}")
