@@ -84,15 +84,15 @@ async def broadcast_users(bot, message):
                 elapsed = get_readable_time(time.time() - start_time)
                 try:
                     await silentxbotz_status_msg.edit(
-                        f"📣 <b>Broadcast Progress....:</b>\n\n"
-                        f"👥 Total: <code>{total_users}</code>\n"
-                        f"✅ Done: <code>{done}</code>\n"
-                        f"📬 Success: <code>{success}</code>\n"
-                        f"⛔ Blocked: <code>{blocked}</code>\n"
-                        f"🗑️ Deleted: <code>{deleted}</code>\n"
-                        f"⏱️ Time: {elapsed}",
+                        f"📣 <b>ʙʀᴏᴀᴅᴄᴀsᴛ ᴘʀᴏɢʀᴇss....:</b>\n\n"
+                        f"👥 ᴛᴏᴛᴀʟ: <code>{total_users}</code>\n"
+                        f"✅ ᴅᴏɴᴇ: <code>{done}</code>\n"
+                        f"📬 sᴜᴄᴄᴇss: <code>{success}</code>\n"
+                        f"⛔ ʙʟᴏᴄᴋᴇᴅ: <code>{blocked}</code>\n"
+                        f"🗑️ ᴅᴇʟᴇᴛᴇᴅ: <code>{deleted}</code>\n"
+                        f"⏱️ ᴛɪᴍᴇ: {elapsed}",
                         reply_markup=InlineKeyboardMarkup([
-                            [InlineKeyboardButton("❌ CANCEL", callback_data="broadcast_cancel#users")]
+                            [InlineKeyboardButton("❌ ᴄᴀɴᴄᴇʟ", callback_data="broadcast_cancel#users")]
                         ])
                     )
                 except FloodWait as e:
@@ -111,13 +111,13 @@ async def broadcast_users(bot, message):
 
     elapsed = get_readable_time(time.time() - start_time)
     final_status = (
-        f"{'❌ <b>Broadcast Cancelled.</b>' if cancelled else '✅ <b>Broadcast Completed.</b>'}\n\n"
-        f"🕒 Time: {elapsed}\n"
-        f"👥 Total: <code>{total_users}</code>\n"
-        f"📬 Success: <code>{success}</code>\n"
-        f"⛔ Blocked: <code>{blocked}</code>\n"
-        f"🗑️ Deleted: <code>{deleted}</code>\n"
-        f"❌ Failed: <code>{failed}</code>"
+        f"{'❌ <b>ʙʀᴏᴀᴅᴄᴀsᴛ ᴄᴀɴᴄᴇʟʟᴇᴅ.</b>' if cancelled else '✅ <b>ʙʀᴏᴀᴅᴄᴀsᴛ ᴄᴏᴍᴘʟᴇᴛᴇᴅ.</b>'}\n\n"
+        f"🕒 ᴛɪᴍᴇ: {elapsed}\n"
+        f"👥 ᴛᴏᴛᴀʟ: <code>{total_users}</code>\n"
+        f"📬 sᴜᴄᴄᴇss: <code>{success}</code>\n"
+        f"⛔ ʙʟᴏᴄᴋᴇᴅ: <code>{blocked}</code>\n"
+        f"🗑️ ᴅᴇʟᴇᴛᴇᴅ: <code>{deleted}</code>\n"
+        f"❌ ғᴀɪʟᴇᴅ: <code>{failed}</code>"
     )
     await silentxbotz_status_msg.edit(final_status)
 
@@ -168,28 +168,28 @@ async def broadcast_group(bot, message):
             else:
                 failed += 1
             done += 1
-            if done % 10 == 0:
-                btn = [[InlineKeyboardButton("❌ CANCEL", callback_data="broadcast_cancel#groups")]]
-                try:
-                    await silentxbotz_status_msg.edit(
-                        f"📣 <b>Group broadcast progress:</b>\n\n"
-                        f"👥 Total Groups: <code>{total_chats}</code>\n"
-                        f"✅ Completed: <code>{done} / {total_chats}</code>\n"
-                        f"📬 Success: <code>{success}</code>\n"
-                        f"❌ Failed: <code>{failed}</code>",
-                        reply_markup=InlineKeyboardMarkup(btn)
-                    )
-                except:
-                    pass
+            if done % 20 == 0:
+            btn = [[InlineKeyboardButton("❌ ᴄᴀɴᴄᴇʟ", callback_data="broadcast_cancel#groups")]]
+            try:
+                await silentxbotz_status_msg.edit(
+                    f"📣 <b>ɢʀᴏᴜᴘ ʙʀᴏᴀᴅᴄᴀsᴛ ᴘʀᴏɢʀᴇss:</b>\n\n"
+                    f"👥 ᴛᴏᴛᴀʟ ɢʀᴏᴜᴘs: <code>{total_chats}</code>\n"
+                    f"✅ ᴄᴏᴍᴘʟᴇᴛᴇᴅ: <code>{done} / {total_chats}</code>\n"
+                    f"📬 sᴜᴄᴄᴇss: <code>{success}</code>\n"
+                    f"❌ ғᴀɪʟᴇᴅ: <code>{failed}</code>",
+                    reply_markup=InlineKeyboardMarkup(btn)
+                )
+            except:
+                pass
 
     time_taken = get_readable_time(time.time() - start_time)
     silentxbotz_text = (
-        f"{'❌ <b>Groups broadcast cancelled!</b>' if cancelled else '✅ <b>Group broadcast completed.</b>'}\n"
-        f"⏱️ Completed in {time_taken}\n\n"
-        f"👥 Total Groups: <code>{total_chats}</code>\n"
-        f"✅ Completed: <code>{done} / {total_chats}</code>\n"
-        f"📬 Success: <code>{success}</code>\n"
-        f"❌ Failed: <code>{failed}</code>"
+        f"{'❌ <b>ɢʀᴏᴜᴘs ʙʀᴏᴀᴅᴄᴀsᴛ ᴄᴀɴᴄᴇʟʟᴇᴅ!</b>' if cancelled else '✅ <b>ɢʀᴏᴜᴘ ʙʀᴏᴀᴅᴄᴀsᴛ ᴄᴏᴍᴘʟᴇᴛᴇᴅ.</b>'}\n"
+        f"⏱️ ᴄᴏᴍᴘʟᴇᴛᴇᴅ ɪɴ {time_taken}\n\n"
+        f"👥 ᴛᴏᴛᴀʟ ɢʀᴏᴜᴘs: <code>{total_chats}</code>\n"
+        f"✅ ᴄᴏᴍᴘʟᴇᴛᴇᴅ: <code>{done} / {total_chats}</code>\n"
+        f"📬 sᴜᴄᴄᴇss: <code>{success}</code>\n"
+        f"❌ ғᴀɪʟᴇᴅ: <code>{failed}</code>"
     )
     try:
         await silentxbotz_status_msg.edit(silentxbotz_text)
