@@ -26,20 +26,20 @@ DEFAULT_IMAGE_URL = "https://te.legra.ph/file/88d845b4f8a024a71465d.jpg"
 INFINITY_UPLOAD_UPDATE_TEXT = """
 <blockquote>🎬 <b>「 ɪɴꜰɪɴɪᴛʏ ᴘʀᴇᴍɪᴜᴍ ᴜᴘᴅᴀᴛᴇ 」</b> 🎥</blockquote>
 
-<b><u>{}</u></b> <code>#{}</code>
+<b><u>{}</u></b> <b>#{}</b>
 
-<code>━━━━━━━━━━━━━━━━━━</code>
+━━━━━━━━━━━━━━━━━━
 <b>🔈 ᴀᴜᴅɪᴏ</b>: {}
 <b>📺 ꜰᴏʀᴍᴀᴛ</b>: {}
 
-<code>━━━━━━━━━━━━━━━━━━</code>
+━━━━━━━━━━━━━━━━━━
 <b>🎭 ᴅɪʀᴇᴄᴛᴏʀ</b>: {}
 <b>📅 ʀᴇʟᴇᴀsᴇ</b>: {}
 <b>⭐ ɪᴍᴅʙ</b>: {}/10 (<code>{}</code> votes)
 <b>🏷️ ɢᴇɴʀᴇs</b>: {}
-<code>━━━━━━━━━━━━━━━━━━</code>
+━━━━━━━━━━━━━━━━━━
 
-<b>⚡ ᴘᴏᴡᴇʀᴇᴅ ʙʏ @SilentXBotz</b>
+<b>⚡ ᴘᴏᴡᴇʀᴇᴅ ʙʏ <a href="https://t.me/+VdxxoOzGyzU1MzE0">ɪᴍᴊ</a></b>
 """
 
 # --- FORMAT 2 (OTT & Bold Labels) ---
@@ -57,7 +57,7 @@ INFINITY_UPLOAD_UPDATE_TEXT_V2 = """
 <b>⭐ ɪᴍᴅʙ ʀᴀᴛɪɴɢ : {}/10</b>
 ━━━━━━━━━━━━━━━━━━
 
-<b>⚡ ᴘᴏᴡᴇʀᴇᴅ ʙʏ @SilentXBotz</b>
+<b>⚡ ᴘᴏᴡᴇʀᴇᴅ ʙʏ <a href="https://t.me/+VdxxoOzGyzU1MzE0">ɪᴍᴊ</a></b>
 """
 
 notified_movies = set()
