@@ -22,7 +22,7 @@ CAPTION_LANGUAGES = ["Bhojpuri", "Hindi", "Bengali", "Tamil", "English", "Bangla
 
 DEFAULT_IMAGE_URL = "https://te.legra.ph/file/88d845b4f8a024a71465d.jpg"
 
-INFINITY_UPLOAD_UPDATE_TEXT = """
+INFINITY_UPLOAD_UPDATE_TEXT_OLD = """
 <blockquote>🎬 <b>「 ɪɴꜰɪɴɪᴛʏ ᴘʀᴇᴍɪᴜᴍ ᴜᴘᴅᴀᴛᴇ 」</b> 🎥</blockquote>
 
 <b><u>{}</u></b> <b>#{}</b>
@@ -38,9 +38,25 @@ INFINITY_UPLOAD_UPDATE_TEXT = """
 <b>🏷️ ɢᴇɴʀᴇs</b>: {}
 ━━━━━━━━━━━━━━━━━━
 
-<b>⚡ ᴘᴏᴡᴇʀᴇᴅ ʙʏ <a href="https://t.me/+VdxxoOzGyzU1MzE0">ɪᴍᴊ</a></b>
+<b>⚡ ᴘᴏᴡᴇʀᴇᴅ ʙʏ <a href="https://t.me/+uyDUtZ8bmAVkZjM8">ɪᴍᴊ</a></b>
 """
+INFINITY_UPLOAD_UPDATE_TEXT = """
+<blockquote>🎬 <b>「 ɪɴꜰɪɴɪᴛʏ ᴘʀᴇᴍɪᴜᴍ ᴜᴘᴅᴀᴛᴇ 」</b> 🎥</blockquote>
 
+<b><u>{}</u></b> <b>#{}</b>
+
+━━━━━━━━━━━━━━━━━━
+<b>🔈 ᴀᴜᴅɪᴏ</b>: {}
+<b>📺 ꜰᴏʀᴍᴀᴛ</b>: {}
+
+━━━━━━━━━━━━━━━━━━
+<b>🎭 ᴏᴛᴛ</b>: {}
+<b>🏷️ ɢᴇɴʀᴇs</b>: {}
+<b>⭐ ɪᴍᴅʙ</b>: {}/10 (<code>{}</code> votes)
+━━━━━━━━━━━━━━━━━━
+
+<b>⚡ ᴘᴏᴡᴇʀᴇᴅ ʙʏ <a href="https://t.me/+uyDUtZ8bmAVkZjM8">ɪɴꜰɪɴɪᴛʏ ᴍᴏᴠɪᴇ ᴊᴜɴᴄᴛɪᴏɴ</a></b>
+"""
 notified_movies = set()
 media_filter = filters.document | filters.video | filters.audio
 
@@ -139,7 +155,8 @@ async def send_with_visual(bot, caption: str, tmdb_data: Dict, search_movie):
                             photo=photo_file, 
                             caption=caption,
                             parse_mode=ParseMode.HTML,
-                            reply_markup=keyboard
+                            reply_markup=keyboard,
+                            has_spoiler=True
                         )
                         return       
         await bot.send_photo(
