@@ -22,24 +22,20 @@ CAPTION_LANGUAGES = ["Bhojpuri", "Hindi", "Bengali", "Tamil", "English", "Bangla
 
 DEFAULT_IMAGE_URL = "https://te.legra.ph/file/88d845b4f8a024a71465d.jpg"
 
-INFINITY_UPLOAD_UPDATE_TEXT_OLD = """
-<blockquote>🎬 <b>「 ɪɴꜰɪɴɪᴛʏ ᴘʀᴇᴍɪᴜᴍ ᴜᴘᴅᴀᴛᴇ 」</b> 🎥</blockquote>
+# Expanded OTT Platform Dictionary
+OTT_PLATFORMS = {
+    "nf": "Netflix", "netflix": "Netflix",
+    "sonyliv": "SonyLiv", "sony": "SonyLiv", "sliv": "SonyLiv",
+    "amzn": "Amazon Prime Video", "prime": "Amazon Prime Video", "primevideo": "Amazon Prime Video",
+    "hotstar": "Disney+ Hotstar", "hstr": "Disney+ Hotstar", "disney": "Disney+ Hotstar",
+    "zee5": "Zee5", "zee": "Zee5",
+    "jio": "JioHotstar", "jhs": "JioHotstar",
+    "aha": "Aha", "hbo": "HBO Max", "max": "HBO Max", "paramount": "Paramount+",
+    "apple": "Apple TV+", "atv": "Apple TV+", "hoichoi": "Hoichoi", "sunnxt": "Sun NXT", 
+    "viki": "Viki", "mubi": "Mubi", "lionsgate": "Lionsgate Play", "lgp": "Lionsgate Play",
+    "crunchyroll": "Crunchyroll", "cr": "Crunchyroll", "alt": "ALTBalaji", "cl": "Colors Lite"
+}
 
-<b><u>{}</u></b> <b>#{}</b>
-
-━━━━━━━━━━━━━━━━━━
-<b>🔈 ᴀᴜᴅɪᴏ</b>: {}
-<b>📺 ꜰᴏʀᴍᴀᴛ</b>: {}
-
-━━━━━━━━━━━━━━━━━━
-<b>🎭 ᴅɪʀᴇᴄᴛᴏʀ</b>: {}
-<b>📅 ʀᴇʟᴇᴀsᴇ</b>: {}
-<b>⭐ ɪᴍᴅʙ</b>: {}/10 (<code>{}</code> votes)
-<b>🏷️ ɢᴇɴʀᴇs</b>: {}
-━━━━━━━━━━━━━━━━━━
-
-<b>⚡ ᴘᴏᴡᴇʀᴇᴅ ʙʏ <a href="https://t.me/+uyDUtZ8bmAVkZjM8">ɪᴍᴊ</a></b>
-"""
 INFINITY_UPLOAD_UPDATE_TEXT = """
 <blockquote>🎬 <b>「 ɪɴꜰɪɴɪᴛʏ ᴘʀᴇᴍɪᴜᴍ ᴜᴘᴅᴀᴛᴇ 」</b> 🎥</blockquote>
 
@@ -59,6 +55,14 @@ INFINITY_UPLOAD_UPDATE_TEXT = """
 """
 notified_movies = set()
 media_filter = filters.document | filters.video | filters.audio
+
+def extract_ott_platform(text: str) -> str:
+    if not text:
+        return "N/A"
+    text = text.lower()
+    # Find all matching platforms based on keys
+    platforms = {plat for key, plat in OTT_PLATFORMS.items() if key in text}
+    return " | ".join(platforms) if platforms else "N/A"
 
 @Client.on_message(filters.chat(CHANNELS) & media_filter)
 async def media(bot, message):
@@ -82,6 +86,8 @@ async def send_movie_update(bot, file_name, caption):
     try:
         file_name = clean_filename(file_name)
         caption = clean_filename(caption)
+        ott = extract_ott_platform(f"{file_name} {caption}")
+
         year_match = re.search(r"\b(19|20)\d{2}\b", caption)
         year = year_match.group(0) if year_match else None      
         season_match = re.search(r"(?i)(?:s|season)0*(\d{1,2})", caption) or re.search(r"(?i)(?:s|season)0*(\d{1,2})", file_name)
@@ -92,30 +98,26 @@ async def send_movie_update(bot, file_name, caption):
             file_name = file_name[:file_name.find(season) + 1]
         quality = await get_qualities(caption) or "HDRip"
         pixel = await get_pixels(caption) or "720p"
-        language = await get_languages(caption) or "Multi-Audio"      
+        language = await get_languages(caption) or "Multi-Audio"
         if file_name in notified_movies:
             return 
-        notified_movies.add(file_name)      
+        notified_movies.add(file_name)
         tmdb_data = await fetch_tmdb_data(file_name, year)
         search_movie = file_name.replace(" ", "-")
         if not tmdb_data:
             return 
 
-        director = tmdb_data.get("director", "")
-        if not director or not director.strip():
-            director = "N/A"
-            
+        # Placeholder adjustments according to INFINITY_UPLOAD_UPDATE_TEXT
+        # 1. Title, 2. Kind, 3. Audio, 4. Format, 5. OTT, 6. Genres, 7. Rating, 8. Votes
         full_caption = INFINITY_UPLOAD_UPDATE_TEXT.format(
             escape_html(tmdb_data["title"]),
             tmdb_data["kind"],
             escape_html(language),
             "MKV" if "mkv" in file_name.lower() else "MP4",
-            escape_html(director),
-            escape_html(tmdb_data["release_date"] or "TBA"),
+            escape_html(ott),
+            escape_html(", ".join(tmdb_data["genres"][:3])),
             tmdb_data["vote_average"],
-            tmdb_data["vote_count"],
-            escape_html(", ".join(tmdb_data["genres"][:3]))
-            
+            tmdb_data["vote_count"]
         )        
         await send_with_visual(bot, full_caption, tmdb_data, search_movie)        
     except Exception as e:
@@ -126,20 +128,20 @@ def escape_html(text: str) -> str:
         return ""
     return str(text).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
 
-def get_trailer_button(tmdb_data: Dict) -> list:
-    videos = tmdb_data.get("videos", [])
-    yt_videos = [v for v in videos if "youtube" in v.get("url", "").lower()]    
-    if yt_videos:
-        return [InlineKeyboardButton("▶️ Watch Trailer", url=yt_videos[0]["url"])]
-    return []
+#def get_trailer_button(tmdb_data: Dict) -> list:
+#    videos = tmdb_data.get("videos", [])
+#    yt_videos = [v for v in videos if "youtube" in v.get("url", "").lower()]    
+#    if yt_videos:
+#        return [InlineKeyboardButton("▶️ Watch Trailer", url=yt_videos[0]["url"])]
+#    return []
     
 async def send_with_visual(bot, caption: str, tmdb_data: Dict, search_movie):
     try:
         visual_url = await get_best_visual(tmdb_data)
         get_file = f'https://telegram.me/{temp.U_NAME}?start=getfile-{search_movie}'
         keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("📱 Get File", url=get_file)],
-            get_trailer_button(tmdb_data)
+            [InlineKeyboardButton("🏷️  ɢᴇᴛ ᴀʟʟ ꜰɪʟᴇꜱ  🏷️", url=get_file)],
+            #get_trailer_button(tmdb_data)
         ])
         
         if visual_url:
@@ -159,9 +161,10 @@ async def send_with_visual(bot, caption: str, tmdb_data: Dict, search_movie):
                             has_spoiler=True
                         )
                         return       
+        # Fallback if no visual_url or download fails
         await bot.send_photo(
             chat_id=MOVIE_UPDATE_CHANNEL, 
-            photo=photo_file, 
+            photo=DEFAULT_IMAGE_URL, 
             caption=caption,
             parse_mode=ParseMode.HTML,
             reply_markup=keyboard,
@@ -169,7 +172,6 @@ async def send_with_visual(bot, caption: str, tmdb_data: Dict, search_movie):
         )       
     except Exception as e:
         LOGGER.error(f"Visual Send Error: {e}")
-
 
 async def generate_premium_filename(title: str, extension=".jpg") -> str:
     clean_title = re.sub(r'[^\w\s-]', '', title)[:20].strip()
