@@ -51,9 +51,9 @@ MULTIPLE_DB = is_enabled(os.environ.get('MULTIPLE_DB', "False"), True) # Type Tr
 DATABASE_URI2 = environ.get('DATABASE_URI2', "")
 DB_CHANGE_LIMIT = int(environ.get('DB_CHANGE_LIMIT', "432")) 
 
-GRP_LNK = environ.get('GRP_LNK', 'https://telegram.me/infinity_botzz')
-CHNL_LNK = environ.get('CHNL_LNK', 'https://telegram.me/infinity_botzz')
-OWNER_LNK = environ.get('OWNER_LNK', 'https://telegram.me/infinity_botzz')
+GRP_LNK = environ.get('GRP_LNK', 'https://t.me/+or1WA716YBc5MTVl')
+CHNL_LNK = environ.get('CHNL_LNK', 'https://telegram.me/infinity_botzz/205')
+OWNER_LNK = environ.get('OWNER_LNK', 'https://telegram.me/mpbotzsupport_bot')
 UPDATE_CHANNEL_LNK = environ.get('UPDATE_CHANNEL_LNK', 'https://telegram.me/infinity_botzz')
 
 AUTH_CHANNEL = environ.get("AUTH_CHANNEL", "-1003817322628") # add multiple channels here, separated by single space
