@@ -22,28 +22,28 @@ CAPTION_LANGUAGES = ["Bhojpuri", "Hindi", "Bengali", "Tamil", "English", "Bangla
 
 DEFAULT_IMAGE_URL = "https://te.legra.ph/file/88d845b4f8a024a71465d.jpg"
 
-# --- FORMAT 1 (Small Caps Labels Only) ---
+# --- FORMAT 1 (Small Caps Labels) ---
 INFINITY_UPLOAD_UPDATE_TEXT = """
 <blockquote>🎬 <b>「 ɪɴꜰɪɴɪᴛʏ ᴘʀᴇᴍɪᴜᴍ ᴜᴘᴅᴀᴛᴇ 」</b> 🎥</blockquote>
 
-<b><u>{}</u></b> <b>#{}</b>
+<b><u>{}</u></b> <code>#{}</code>
 
-━━━━━━━━━━━━━━━━━━
+<code>━━━━━━━━━━━━━━━━━━</code>
 <b>🔈 ᴀᴜᴅɪᴏ</b>: {}
 <b>📺 ꜰᴏʀᴍᴀᴛ</b>: {}
 
-━━━━━━━━━━━━━━━━━━
+<code>━━━━━━━━━━━━━━━━━━</code>
 <b>🎭 ᴅɪʀᴇᴄᴛᴏʀ</b>: {}
 <b>📅 ʀᴇʟᴇᴀsᴇ</b>: {}
 <b>⭐ ɪᴍᴅʙ</b>: {}/10 (<code>{}</code> votes)
 <b>🏷️ ɢᴇɴʀᴇs</b>: {}
-━━━━━━━━━━━━━━━━━━
+<code>━━━━━━━━━━━━━━━━━━</code>
 
-<b>⚡ ᴘᴏᴡᴇʀᴇᴅ ʙʏ <a href="https://t.me/+VdxxoOzGyzU1MzE0">ɪᴍᴊ</a></b>
+<b>⚡ ᴘᴏᴡᴇʀᴇᴅ ʙʏ @SilentXBotz</b>
 """
 
-# --- FORMAT 2 (Bold Labels Only) ---
-INFINITY_UPLOAD_UPDATE_V2 = """
+# --- FORMAT 2 (OTT & Bold Labels) ---
+INFINITY_UPLOAD_UPDATE_TEXT_V2 = """
 <blockquote>🎬 <b>「 ɪɴꜰɪɴɪᴛʏ ᴘʀᴇᴍɪᴜᴍ ᴜᴘᴅᴀᴛᴇ 」</b> 🎥</blockquote>
 
 <b><u>{}</u></b> <b>#{}</b>
@@ -57,85 +57,38 @@ INFINITY_UPLOAD_UPDATE_V2 = """
 <b>⭐ ɪᴍᴅʙ ʀᴀᴛɪɴɢ : {}/10</b>
 ━━━━━━━━━━━━━━━━━━
 
-<b>⚡ ᴘᴏᴡᴇʀᴇᴅ ʙʏ <a href="https://t.me/+VdxxoOzGyzU1MzE0">ɪᴍᴊ</a></b>
+<b>⚡ ᴘᴏᴡᴇʀᴇᴅ ʙʏ @SilentXBotz</b>
 """
 
 notified_movies = set()
 media_filter = filters.document | filters.video | filters.audio
+media_process_lock = asyncio.Lock()
 
 @Client.on_message(filters.chat(CHANNELS) & media_filter)
 async def media(bot, message):
-    LOGGER.info(f"Checking media in chat {message.chat.id}")
+    LOGGER.info(f"Incoming media from chat {message.chat.id}")
     for file_type in ("document", "video", "audio"):
         media = getattr(message, file_type, None)
         if media is not None:
             break
     else:
         return
-    
+
     media.file_type = file_type
-    media.caption = message.caption or ""
-    success, silentxbotz = await save_file(media)
-    
-    try:  
-        status = await get_status(bot.me.id)
-        if success and silentxbotz == 1 and status:            
-            LOGGER.info(f"Attempting update for: {media.file_name}")
-            await send_movie_update(bot, file_name=media.file_name, caption=media.caption)
-        else:
-            LOGGER.info(f"Skipped update. Status: {status}, NewFile: {silentxbotz}")
-    except Exception as e:
-        LOGGER.error(f"Error In Media Handler - {e}", exc_info=True)
+    media.caption = message.caption
 
-async def send_movie_update(bot, file_name, caption):
-    try:
-        f_name = clean_filename(file_name)
-        cap = clean_filename(caption)
-        
-        year_match = re.search(r"\b(19|20)\d{2}\b", cap)
-        year = year_match.group(0) if year_match else "N/A"      
-        
-        quality = await get_qualities(cap) or "HDRip"
-        language = await get_languages(cap) or "Multi-Audio"      
-        ott_platform = await extract_ott_platform(f"{f_name} {cap}")
-
-        if f_name in notified_movies:
-            LOGGER.info(f"Duplicate detection: {f_name} already sent.")
-            return 
-        notified_movies.add(f_name)      
-        
-        from plugins.Dreamxfutures.Imdbposter import fetch_tmdb_data
-        tmdb_data = await fetch_tmdb_data(f_name, year)
-        
-        if not tmdb_data:
-            LOGGER.warning(f"No TMDB data found for {f_name}")
-            return 
-
-        search_movie = f_name.replace(" ", "-")
-        director = tmdb_data.get("director", "N/A")
-        genres = ", ".join(tmdb_data.get("genres", [])[:3]) or "N/A"
-        rating = tmdb_data.get("vote_average", "N/A")
-        votes = tmdb_data.get("vote_count", "0")
-        release = tmdb_data.get("release_date", "TBA")
-        title = tmdb_data.get("title", f_name)
-
-        choice = random.choice([1, 2])
-        LOGGER.info(f"Sending Format {choice} for {title}")
-        
-        if choice == 1:
-            full_caption = INFINITY_UPLOAD_UPDATE_TEXT.format(
-                escape_html(title), year, escape_html(language), quality,
-                escape_html(director), escape_html(release), rating, votes, escape_html(genres)
-            )
-        else:
-            full_caption = INFINITY_UPLOAD_UPDATE_V2.format(
-                escape_html(title), year, escape_html(genres), ott_platform,
-                quality, escape_html(language), rating
-            )
+    async with media_process_lock:
+        try:
+            success, silentxbotz = await save_file(media)
+            if success:
+                LOGGER.info(f"File saved: {media.file_name}")
             
-        await send_with_visual(bot, full_caption, tmdb_data, search_movie)         
-    except Exception as e:
-        LOGGER.error(f"Error In send_movie_update: {e}", exc_info=True)
+            if success and silentxbotz == 1 and await get_status(bot.me.id):            
+                LOGGER.info(f"New file found. Triggering update...")
+                await send_movie_update(bot, file_name=media.file_name, caption=media.caption)
+                
+        except Exception as e:
+            LOGGER.error(f"Error in media handler: {e}", exc_info=True)
 
 async def extract_ott_platform(text: str) -> str:
     OTT_PLATFORMS = {
@@ -149,6 +102,58 @@ async def extract_ott_platform(text: str) -> str:
     platforms = [plat for key, plat in OTT_PLATFORMS.items() if key in text]
     return " | ".join(platforms) if platforms else "N/A"
 
+async def send_movie_update(bot, file_name, caption):
+    try:
+        f_name = clean_filename(file_name)
+        cap = clean_filename(caption)
+        
+        # Years & Season handling
+        year_match = re.search(r"\b(19|20)\d{2}\b", cap)
+        year = year_match.group(0) if year_match else "ɴ/ᴀ"
+        
+        # Technical Callbacks
+        quality = await get_qualities(cap) or "ʜᴅʀɪᴘ"
+        pixel = await get_pixels(cap) or "720ᴘ"
+        language = await get_languages(cap) or "ᴍᴜʟᴛɪ-ᴀᴜᴅɪᴏ"
+        ott = await extract_ott_platform(f"{f_name} {cap}")
+
+        if f_name in notified_movies:
+            LOGGER.info(f"Skipping duplicate: {f_name}")
+            return 
+        notified_movies.add(f_name)      
+        
+        tmdb_data = await fetch_tmdb_data(f_name, year)
+        if not tmdb_data:
+            LOGGER.warning(f"No TMDB data for {f_name}")
+            return 
+
+        search_movie = f_name.replace(" ", "-")
+        director = tmdb_data.get("director", "ɴ/ᴀ")
+        genres = ", ".join(tmdb_data.get("genres", [])[:3]) or "ɴ/ᴀ"
+        rating = tmdb_data.get("vote_average", "ɴ/ᴀ")
+        votes = tmdb_data.get("vote_count", "0")
+        release = tmdb_data.get("release_date", "ᴛʙᴀ")
+        title = tmdb_data.get("title", f_name)
+
+        # Randomizer
+        choice = random.choice([1, 2])
+        LOGGER.info(f"Selected Format {choice} for {title}")
+
+        if choice == 1:
+            full_caption = INFINITY_UPLOAD_UPDATE_TEXT.format(
+                escape_html(title), year, escape_html(language), quality,
+                escape_html(director), escape_html(release), rating, votes, escape_html(genres)
+            )
+        else:
+            full_caption = INFINITY_UPLOAD_UPDATE_TEXT_V2.format(
+                escape_html(title), year, escape_html(genres), ott,
+                pixel, escape_html(language), rating
+            )
+            
+        await send_with_visual(bot, full_caption, tmdb_data, search_movie)         
+    except Exception as e:
+        LOGGER.error(f"Error in send_movie_update: {e}", exc_info=True)
+
 def escape_html(text: str) -> str:
     if not text: return ""
     return str(text).replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
@@ -157,7 +162,7 @@ def get_trailer_button(tmdb_data: Dict) -> list:
     videos = tmdb_data.get("videos", [])
     yt_videos = [v for v in videos if "youtube" in v.get("url", "").lower()]    
     if yt_videos:
-        return [InlineKeyboardButton("▶️ Watch Trailer", url=yt_videos[0]["url"])]
+        return [InlineKeyboardButton("▶️ ᴡᴀᴛᴄʜ ᴛʀᴀɪʟᴇʀ", url=yt_videos[0]["url"])]
     return []
     
 async def send_with_visual(bot, caption: str, tmdb_data: Dict, search_movie):
@@ -165,14 +170,13 @@ async def send_with_visual(bot, caption: str, tmdb_data: Dict, search_movie):
         from plugins.Dreamxfutures.Imdbposter import get_best_visual
         visual_url = await get_best_visual(tmdb_data)
         get_file = f'https://telegram.me/{temp.U_NAME}?start=getfile-{search_movie}'
-        
         keyboard = InlineKeyboardMarkup([
-            [InlineKeyboardButton("📱 Get File", url=get_file)],
+            [InlineKeyboardButton("📱 ɢᴇᴛ ꜰɪʟᴇ", url=get_file)],
             get_trailer_button(tmdb_data)
         ])
         
         target_url = visual_url or DEFAULT_IMAGE_URL
-        LOGGER.info(f"Uploading photo to {MOVIE_UPDATE_CHANNEL}...")
+        LOGGER.info(f"Sending photo with spoiler to {MOVIE_UPDATE_CHANNEL}")
 
         async with aiohttp.ClientSession() as session:
             async with session.get(target_url, timeout=20) as img_resp:
@@ -189,17 +193,20 @@ async def send_with_visual(bot, caption: str, tmdb_data: Dict, search_movie):
                         reply_markup=keyboard,
                         has_spoiler=True
                     )
-                    LOGGER.info("Update posted successfully.")
-                else:
-                    LOGGER.error(f"Image Download Failed: {img_resp.status}")
+                    LOGGER.info("Update posted.")
     except Exception as e:
         LOGGER.error(f"Visual Send Error: {e}", exc_info=True)
 
 async def get_languages(text: str) -> str:
     found_langs = [lang for lang in CAPTION_LANGUAGES if lang.lower().replace(" ", "") in text.lower().replace(" ", "")]
-    return ", ".join(found_langs[:2]) if found_langs else None
+    return ", ".join(found_langs[:2]) if found_langs else "ᴍᴜʟᴛɪ-ᴀᴜᴅɪᴏ"
 
 async def get_qualities(text): 
     qualities = ["ORG", "HDCAM", "HDRip", "WEB-DL", "BluRay"]
     found = [q for q in qualities if q.lower() in text.lower()]
-    return ", ".join(found) if found else None
+    return ", ".join(found) if found else "ʜᴅʀɪᴘ"
+
+async def get_pixels(caption):
+    pixels = ["480p", "720p", "1080p", "2160p", "4K"]
+    found = [p for p in pixels if p.lower() in caption.lower()]
+    return ", ".join(found) if found else "720ᴘ"
