@@ -109,12 +109,14 @@ async def send_movie_update(bot, file_name, caption):
         if not tmdb_data:
             return 
 
+        release_date = tmdb_data.get("release_date")
+        release_year = release_date[:4] if release_date else (year or "N/A")
         full_caption = INFINITY_UPLOAD_UPDATE_TEXT.format(
             escape_html(tmdb_data["title"]),  # 1. Title
             tmdb_data["kind"],                # 2. Kind
             escape_html(language),            # 3. Audio
             escape_html(pixel),               # 4. Format (Resolution)
-            escape_html(tmdb_data.get("release_date", year) or "N/A"),  # 5. Release
+            escape_html(release_date),        # 5. Release
             tmdb_data["vote_average"],        # 6. Rating
             tmdb_data["vote_count"],          # 7. Votes
             escape_html(", ".join(tmdb_data["genres"][:3])),  # 8. Genres
