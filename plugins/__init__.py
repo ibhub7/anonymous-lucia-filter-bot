@@ -1,11 +1,11 @@
+import aiohttp
+import asyncio
 from aiohttp import web
 from .route import routes
 from asyncio import sleep 
 from datetime import datetime, timedelta
 from database.users_chats_db import db
 from info import PREMIUM_LOGS, URL
-import aiohttp
-import asyncio
 from logging_helper import LOGGER
 
 
@@ -18,7 +18,6 @@ REMINDER_TIMES = [
     ("10m", timedelta(minutes=10))
 ]
 
-# Premium Reminder Expired ( This Code Modified By @BOT_OWNER26)
 async def check_expired_premium(client):
     while True:
         now = datetime.utcnow()
