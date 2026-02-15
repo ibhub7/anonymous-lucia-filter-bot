@@ -48,6 +48,7 @@ INFINITY_UPLOAD_UPDATE_TEXT = """
 ━━━━━━━━━━━━━━━━━━
 <b>🎭 ᴏᴛᴛ</b>: {}
 <b>🏷️ ɢᴇɴʀᴇs</b>: {}
+<b>📅 ʀᴇʟᴇᴀsᴇ</b>: {}
 <b>⭐ ɪᴍᴅʙ</b>: {}/10 (<code>{}</code> votes)
 ━━━━━━━━━━━━━━━━━━
 
@@ -108,7 +109,7 @@ async def send_movie_update(bot, file_name, caption):
             return 
 
         # Placeholder adjustments according to INFINITY_UPLOAD_UPDATE_TEXT
-        # 1. Title, 2. Kind, 3. Audio, 4. Format, 5. OTT, 6. Genres, 7. Rating, 8. Votes
+        # 1. Title, 2. Kind, 3. Audio, 4. Format, 5. OTT, 6. Genres, 7.Year 8. Rating, 9. Votes
         full_caption = INFINITY_UPLOAD_UPDATE_TEXT.format(
             escape_html(tmdb_data["title"]),
             tmdb_data["kind"],
@@ -116,6 +117,7 @@ async def send_movie_update(bot, file_name, caption):
             "MKV" if "mkv" in file_name.lower() else "MP4",
             escape_html(ott),
             escape_html(", ".join(tmdb_data["genres"][:3])),
+            escape_html(tmdb_data.get("release_date", year) or "N/A"),
             tmdb_data["vote_average"],
             tmdb_data["vote_count"]
         )        
