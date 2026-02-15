@@ -35,6 +35,7 @@ OTT_PLATFORMS = {
     "viki": "Viki", "mubi": "Mubi", "lionsgate": "Lionsgate Play", "lgp": "Lionsgate Play",
     "crunchyroll": "Crunchyroll", "cr": "Crunchyroll", "alt": "ALTBalaji", "cl": "Colors Lite"
 }
+#<b>🎥Qᴜᴀʟɪᴛʏ</b>: <b>{}</b>
 
 INFINITY_UPLOAD_UPDATE_TEXT = """
 <blockquote>🎬 <b>「 ɪɴꜰɪɴɪᴛʏ ᴘʀᴇᴍɪᴜᴍ ᴜᴘʟᴏᴀᴅ ᴜᴘᴅᴀᴛᴇ 」</b> 🎥</blockquote>
@@ -114,7 +115,7 @@ async def send_movie_update(bot, file_name, caption):
             escape_html(tmdb_data["title"]),
             tmdb_data["kind"],
             escape_html(language),
-            "MKV" if "mkv" in file_name.lower() else "MP4",
+            escape_html(pixel),
             escape_html(ott),
             escape_html(", ".join(tmdb_data["genres"][:3])),
             escape_html(tmdb_data.get("release_date", year) or "N/A"),
