@@ -13,7 +13,7 @@ class SilentXBot(Client):
             api_id=API_ID,
             api_hash=API_HASH,
             bot_token=BOT_TOKEN,
-            workers=50,
+            workers=100,
             plugins={"root": "plugins"},
             sleep_threshold=5,
         )
