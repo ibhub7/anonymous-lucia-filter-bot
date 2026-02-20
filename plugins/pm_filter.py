@@ -160,7 +160,7 @@ async def generic_filter_handler(client, query, key, offset, search_query):
         InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇ", callback_data=f"languages#{key}#0"),
         InlineKeyboardButton("ꜱᴇᴀꜱᴏɴ",  callback_data=f"seasons#{key}#0")
     ])
-    btn.insert(1, [InlineKeyboardButton("•   ꜱᴇɴᴅ  ᴀʟʟ  ꜰɪʟᴇꜱ   •", callback_data=f"sendfiles#{key}")])
+    btn.insert(1, [InlineKeyboardButton("📥   ꜱᴇɴᴅ  ᴀʟʟ  ꜰɪʟᴇꜱ   📥", callback_data=f"sendfiles#{key}")])
     await build_pagination_buttons(btn, total_results, offset, n_offset, req, key, settings)
     cap = ""
     if not settings.get('button'):
@@ -889,7 +889,7 @@ async def auto_filter(client, msg, spoll=False):
         InlineKeyboardButton("ʟᴀɴɢᴜᴀɢᴇ", callback_data=f"languages#{key}#0"),
         InlineKeyboardButton("ꜱᴇᴀꜱᴏɴ",  callback_data=f"seasons#{key}#0")
     ])
-    btn.insert(1, [InlineKeyboardButton("•   ꜱᴇɴᴅ  ᴀʟʟ  ꜰɪʟᴇꜱ   •", callback_data=f"sendfiles#{key}")])
+    btn.insert(1, [InlineKeyboardButton("📥   ꜱᴇɴᴅ  ᴀʟʟ  ꜰɪʟᴇꜱ   📥", callback_data=f"sendfiles#{key}")])
 
     if offset != "":
         req = message.from_user.id if message.from_user else 0
